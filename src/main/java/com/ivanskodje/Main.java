@@ -17,53 +17,65 @@ import java.io.IOException;
 @SpringBootApplication
 public class Main extends Application
 {
-    private ConfigurableApplicationContext configurableApplicationContext;
+	private ConfigurableApplicationContext configurableApplicationContext;
 
-    @Override
-    public void init() throws Exception
-    {
-        // TODO: Do preloading in this method
-        // ...
 
-        // Initialize Spring
-        configurableApplicationContext = SpringApplication.run(Main.class);
+	@Override
+	public void init() throws Exception
+	{
+		// TODO: Do preloading in this method
+		// ...
 
-        // (Simulation of heavy background work)
-        int numberOfUpdates = 10;
-        for (int i = 0; i < numberOfUpdates; i++)
-        {
-            // Gradually update the loading bar
-            notifyPreloader(new Preloader.ProgressNotification((double) i / numberOfUpdates));
-            Thread.sleep(3000L / numberOfUpdates);
-        }
-    }
+		System.out.println("INIT PRELOADING HERE");
 
-    @Override
-    public void start(Stage primaryStage)
-    {
-        String fxmlPath = "/fxml/Main.fxml";
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            fxmlLoader.setControllerFactory(configurableApplicationContext::getBean);
-            Parent root = fxmlLoader.load();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        }
-        catch (IOException ex)
-        {
-            System.err.println("Unable to load '" + fxmlPath + "'");
-        }
-    }
+		try
+		{
 
-    @Override
-    public void stop()
-    {
-        configurableApplicationContext.close();
-    }
+			// Initialize Spring
+			configurableApplicationContext = SpringApplication.run(Main.class);
+			// (Simulation of heavy background work)
+			int waitTime = 1000;
+			int numberOfUpdates = 10;
+			for (int i = 0; i < numberOfUpdates; i++)
+			{
+				// Gradually update the loading bar
+				notifyPreloader(new Preloader.ProgressNotification((double) i / numberOfUpdates));
+				Thread.sleep(waitTime / numberOfUpdates);
+			}
+		}
+		catch (Exception ex)
+		{
+			System.out.println("Database may already be in use. Please close any other applications that may be using it.");
+			System.exit(0);
+		}
+	}
 
-    public static void main(String[] args)
-    {
-        LauncherImpl.launchApplication(Main.class, AppPreloader.class, args);
-    }
+	@Override
+	public void start(Stage primaryStage)
+	{
+		String fxmlPath = "/fxml/Main.fxml";
+		try
+		{
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
+			fxmlLoader.setControllerFactory(configurableApplicationContext::getBean);
+			Parent root = fxmlLoader.load();
+			primaryStage.setScene(new Scene(root));
+			primaryStage.show();
+		}
+		catch (IOException ex)
+		{
+			System.err.println("Unable to load '" + fxmlPath + "'");
+		}
+	}
+
+	@Override
+	public void stop()
+	{
+		configurableApplicationContext.close();
+	}
+
+	public static void main(String[] args)
+	{
+		LauncherImpl.launchApplication(Main.class, AppPreloader.class, args);
+	}
 }

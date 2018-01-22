@@ -1,6 +1,6 @@
 package com.ivanskodje;
 
-import com.ivanskodje.service.TestService;
+import com.ivanskodje.service.ItemService;
 import javafx.fxml.Initializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable
 {
     @Autowired
-    TestService testService;
+    ItemService itemService;
 
     /**
      * Initializes the controller class.
@@ -22,6 +22,5 @@ public class MainController implements Initializable
     {
         // TODO
         System.out.println("# MainController - initialize() start");
-        testService.doSomething();
     }
 }

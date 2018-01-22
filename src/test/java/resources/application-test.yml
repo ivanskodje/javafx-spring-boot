@@ -1,0 +1,21 @@
+
+spring:
+  profiles:
+    active: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+
+  datasource:
+    platform: "h2"
+    driver-class-name: "org.h2.Driver"
+    url: "jdbc:h2:file:~/test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
+    username: "username"
+    password: ""
+
+  h2:
+    console:
+      enabled: false # To enable, add spring-boot-starter-web dependency
+      path: /console # localhost:8080/console

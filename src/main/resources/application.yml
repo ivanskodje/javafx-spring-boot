@@ -1,2 +1,4 @@
-application:
-  message: "Hello Pluto"
+
+spring:
+  profiles:
+    active: "dev"

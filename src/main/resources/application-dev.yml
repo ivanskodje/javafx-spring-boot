@@ -1,0 +1,17 @@
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: "update"
+
+  datasource:
+    platform: "h2"
+    driver-class-name: "org.h2.Driver"
+    url: "jdbc:h2:file:~/dev_db"
+    username: "username"
+    password: ""
+
+  h2:
+    console:
+      enabled: false # To enable, add spring-boot-starter-web dependency
+      path: /console # localhost:8080/console
