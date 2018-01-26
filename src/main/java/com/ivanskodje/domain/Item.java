@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "item")
 @EqualsAndHashCode(exclude = {"id"})
-public @Data class Item
-{
+public @Data
+class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -21,12 +21,10 @@ public @Data class Item
 	private Long value;
 
 	@SuppressWarnings("unused")
-	public Item()
-	{
+	public Item() {
 	}
 
-	public Item(String name)
-	{
+	public Item(String name) {
 		this.name = name;
 	}
 }

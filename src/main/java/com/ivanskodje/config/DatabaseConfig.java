@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-public class DatabaseConfig
-{
+public class DatabaseConfig {
 	/**
 	 * Load the properties set in the application.yml relevant to DataSource.
 	 *
@@ -19,8 +18,7 @@ public class DatabaseConfig
 	@Bean
 	@Primary
 	@ConfigurationProperties("spring.datasource")
-	public DataSourceProperties dataSourceProperties()
-	{
+	public DataSourceProperties dataSourceProperties() {
 		return new DataSourceProperties();
 	}
 
@@ -33,14 +31,13 @@ public class DatabaseConfig
 	@Bean
 	@Primary
 	@ConfigurationProperties("spring.datasource")
-	public DataSource dataSource()
-	{
+	public DataSource dataSource() {
 		return dataSourceProperties().initializeDataSourceBuilder().build();
 	}
 
-	/**
-	 * Example of setting up DataSource using code
-	 */
+//	/**
+//	 * Example of setting up DataSource using code
+//	 */
 //	@Bean
 //	@ConfigurationProperties("spring.datasource")
 //	public DataSource repositoryDataSource()
