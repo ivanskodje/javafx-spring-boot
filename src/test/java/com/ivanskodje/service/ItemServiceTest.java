@@ -75,7 +75,7 @@ public class ItemServiceTest {
 	}
 
 	@Test
-	public void getItem() {g
+	public void getItem() {
 		itemService.addItem(new Item("Item"));
 		Long expectedId = 1L;
 
