@@ -2,6 +2,7 @@ package com.ivanskodje.service;
 
 import com.ivanskodje.domain.Item;
 import com.ivanskodje.repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,36 +10,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemService {
 	private ItemRepository itemRepository;
 
+	@Autowired
 	public ItemService(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 	}
 
 	@Transactional
 	public Item addItem(Item item) {
-		try {
-			return (item != null) ? itemRepository.save(item) : null;
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
-		}
+		return itemRepository.save(item);
 	}
 
 	@Transactional(readOnly = true)
 	public Item getItem(Long id) {
-		try {
-			return itemRepository.findOne(id);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
-		}
+		return itemRepository.findOne(id);
 	}
 
 	@Transactional(readOnly = true)
 	public void printAll() {
-		try {
-			itemRepository.findAll().forEach(System.out::println);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
+		itemRepository.findAll().forEach(System.out::println);
+	}
+
+	@Transactional
+	public void deleteItem(Long id) {
+		itemRepository.delete(id);
+	}
+
+	@Transactional
+	public void deleteAll() {
+		itemRepository.deleteAll();
 	}
 }

@@ -1,7 +1,7 @@
 package com.ivanskodje.service;
 
 import com.ivanskodje.Main;
-import com.ivanskodje.domain.Item;
+import com.ivanskodje.domain.Task;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,73 +12,74 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.TransactionSystemException;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
-public class ItemServiceTest {
+public class TaskServiceTest {
 	@Autowired
-	private ItemService itemService;
+	private TaskService taskService;
 
 	@Before
 	public void setup() {
-		itemService.printAll();
+		taskService.printAll();
 	}
 
 	@After
 	public void tearDown() {
-		itemService.deleteAll();
+		taskService.deleteAll();
 	}
 
 	@Test
 	public void addNewItem() {
-		String expectedName = "Terminator";
-		Long expectedValue = 666L;
-		Item receivedItem = addItem(buildItem(expectedName, expectedValue));
+		String expectedName = "TASKINATOR";
+		String expectedDescription = "Hail and Kill";
+		Task receivedItem = addTask(buildItem(expectedName, expectedDescription));
 		Assert.assertNotNull(receivedItem.getId());
 		Assert.assertEquals(expectedName, receivedItem.getName());
-		Assert.assertEquals(expectedValue, receivedItem.getValue());
+		Assert.assertEquals(expectedDescription, receivedItem.getDescription());
 	}
 
 	@Test
 	public void addNewItemAndGetItem() {
-		String name = "Item Name";
-		Long value = 40L;
-		Item item = addItem(buildItem(name, value));
-		Item receivedItem = getItem(item.getId());
-		assertEqualItems(item, receivedItem);
+		String name = "Task Name";
+		String description = "My Task Description";
+		Task task = addTask(buildItem(name, description));
+		Task receivedTask = getItem(task.getId());
+		assertEqualItems(task, receivedTask);
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void addItem_failed_nullItemData_ThrowsTransactionSystemException() {
-		itemService.addItem(new Item(null));
+		taskService.addTask(new Task(null));
 	}
 
 	@Test
 	public void printAll() {
-		itemService.printAll();
+		taskService.printAll();
 	}
 
-	private Item getItem(Long id) {
-		return itemService.getItem(id);
+	private Task getItem(Long id) {
+		return taskService.getTask(id);
 	}
 
-	private void assertEqualItems(Item item, Item receivedItem) {
+	private void assertEqualItems(Task item, Task receivedItem) {
 		Assert.assertNotNull(item);
 		Assert.assertNotNull(receivedItem);
 		Assert.assertEquals(item.getId(), receivedItem.getId());
 		Assert.assertEquals(item.getName(), receivedItem.getName());
-		Assert.assertEquals(item.getValue(), receivedItem.getValue());
+		Assert.assertEquals(item.getDescription(), receivedItem.getDescription());
 	}
 
-	private Item addItem(Item item) {
-		return itemService.addItem(item);
+	private Task addTask(Task task) {
+		return taskService.addTask(task);
 	}
 
-	private Item buildItem(String expectedName, Long expectedValue) {
-		Item item = new Item(expectedName);
-		item.setValue(expectedValue);
-		return item;
+	private Task buildItem(String expectedName, String expectedDescription) {
+		Task task = new Task(expectedName);
+		task.setDescription(expectedDescription);
+		return task;
 	}
 }

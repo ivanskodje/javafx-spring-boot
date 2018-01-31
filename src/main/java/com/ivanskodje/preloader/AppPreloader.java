@@ -17,6 +17,7 @@ public class AppPreloader extends Preloader {
 	private Stage stage;
 
 	public void start(Stage stage) {
+		System.out.println("AppPreloader start()");
 		this.stage = stage;
 		stage.setScene(buildScene());
 		stage.show();

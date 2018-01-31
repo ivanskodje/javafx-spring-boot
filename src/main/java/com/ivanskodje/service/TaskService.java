@@ -14,30 +14,28 @@ public class TaskService {
 	}
 
 	@Transactional
-	public void addTask(Task task) {
-		try {
-			taskRepository.save(task);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
+	public Task addTask(Task task) {
+		return taskRepository.save(task);
 	}
 
 	@Transactional(readOnly = true)
 	public Task getTask(Long id) {
-		try {
-			return taskRepository.findOne(id);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
-		}
+		return taskRepository.findOne(id);
+	}
+
+
+	@Transactional
+	public void deleteTask(Long id) {
+		taskRepository.delete(id);
+	}
+
+	@Transactional
+	public void deleteAll() {
+		taskRepository.deleteAll();
 	}
 
 	@Transactional(readOnly = true)
 	public void printAll() {
-		try {
-			taskRepository.findAll().forEach(System.out::println);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
+		taskRepository.findAll().forEach(System.out::println);
 	}
 }
